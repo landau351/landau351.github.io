@@ -8,7 +8,8 @@ A long time I.T. technical specialist.
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself. 
+Currently I work in the DevOps, Oracle (SQL, PL/SQL) and 'c'/'c++' space.
+s apparently disparate set of skills highlight a wide and varied career.
 
 ### Contact me
 
