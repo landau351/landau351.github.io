@@ -16,14 +16,12 @@ Despite there being the `time()` and `mktime()` functions that handle this sort 
 Something like the following logic occured when the system was started
 
 ```
-
 int CurrentMidnight = GetSecondsfromPABX();  # Set on program startup by asking the PABX
 ```
 
 The routine executed at midnight looked something like this
 
 ```
-
 RollMidnight()
 {
   ...
@@ -51,7 +49,6 @@ Unfortunately he hadn't spotted the date-bug at all.
 What I had assumed he would have seen is the highly dangerous;
 
 ```c++
-
 dy = dy + 1;
 ```
 
