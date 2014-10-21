@@ -21,13 +21,13 @@ The routine executed at midnight looked something like this;
 
 	RollMidnight()
 	{
-	...
-		int dy, mth, yr;
+	  ...
+	  int dy, mth, yr;
 
-		ConvertToDate(CurrentMidnight, dy, mth, yr);
-		dy = dy + 1;
-		CurrentMidnight = DateToSeconds(dy, mth, yr);
-	...
+	  ConvertToDate(CurrentMidnight, dy, mth, yr);
+	  dy = dy + 1;
+	  CurrentMidnight = DateToSeconds(dy, mth, yr);
+	  ...
 	}
 
 No comments in the code (no surprise here). It appears that the programmer wanted to roll the date forward so converted CurrentMidnight into DD/MM/YY. Added one to the day (DD) and converted it back via another function.
@@ -60,11 +60,11 @@ Starting with a value in seconds, increment to a value in seconds that represent
 Actual Solution
 A `#define` already existed and was in use in various other locations in the code, (even if it wasn't, it is easy enough to create)
 
-	  #define SECONDS_IN_A_DAY 60*60*24 # seconds-in-minute * minutes-in-hour * hours-in-day
+	#define SECONDS_IN_A_DAY 60*60*24 # seconds-in-minute * minutes-in-hour * hours-in-day
 
 I replaced the function calls with this;
 
-	  CurrentMidnight += SECONDS_IN_A_DAY;
+	CurrentMidnight += SECONDS_IN_A_DAY;
 
 This is all that was required, short simple and bug fixed.
 
