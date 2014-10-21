@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Bounds checking is important!
+title: "Bounds checking is important!"
+published: true
 ---
-
 
 Many years ago I was working on a PABX call-centre monitoring system that was sold to customers of a large Australian Telco. It was written in 'c' (Using the Borland 4.51 C++ compiler on a 486) designed to run 24x7, monitoring a call centre and providing real-time stats on a Wall mounted display.
 
@@ -15,13 +15,10 @@ Despite there being the `time()` and `mktime()` functions that handle this sort 
 
 Something like the following logic occured when the system was started
 
-```
 int CurrentMidnight = GetSecondsfromPABX();  # Set on program startup by asking the PABX
-```
 
 The routine executed at midnight looked something like this
 
-```
 void RollMidnight()
 {
   ...
@@ -32,7 +29,6 @@ void RollMidnight()
   CurrentMidnight = DateToSeconds(dy, mth, yr);
   ...
 }
-```
 
 No comments in the code (no surprise here). It appears that the programmer wanted to roll the date forward so converted CurrentMidnight into DD/MM/YY. Added one to the day (DD) and converted it back via another function.
 
@@ -48,9 +44,7 @@ Unfortunately he hadn't spotted the date-bug at all.
 
 What I had assumed he would have seen is the highly dangerous;
 
-```
 dy = dy + 1;
-```
 
 This of course increments the date to the next day but has no bounds check.
 Ie: If today is the 31st, then this code would make the date the 32nd.
@@ -66,33 +60,26 @@ Starting with a value in seconds, increment to a value in seconds that represent
 Actual Solution
 A `#define` already existed and was in use in various other locations in the code, (even if it wasn't, it is easy enough to create)
 
-```
 #define SECONDS_IN_A_DAY 60*60*24 # seconds-in-minute * minutes-in-hour * hours-in-day
-```
 
 I replaced the function calls with this;
 
-```
 CurrentMidnight += SECONDS_IN_A_DAY;
-```
 
 This is all that was required, short simple and bug fixed.
 
+---
 
 The actual bug worked like this;
 
 Suppose today is the last day of May, the date would be incremented, then the function call would look like this;
 
-```
 CurrentMidnight = DateToSeconds(32, 5, 95);
-```
 
 The `DateToSeconds()` function at least checked things and if it detected an error it would pass back `-1`.
 So the code was essentially doing this;
 
-```
 CurrentMidnight = -1;
-```
 
 For fans of the Y2038 issue [Year 2038 problem](http://en.wikipedia.org/wiki/Year_2038_problem) that represents 03:14:07 UTC on Tuesday, 19 January 2038
 I had not heard of Y2038 at that time but '-1' represents the largest number you can hold in an 32-bit int which is the year 2038.
