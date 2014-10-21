@@ -19,7 +19,7 @@ Something like the following logic occured when the system was started;
 
 The routine executed at midnight looked something like this;
 
-```c++
+```ruby
 RollMidnight()
 {
   ...
