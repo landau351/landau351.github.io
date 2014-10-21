@@ -15,13 +15,13 @@ Despite there being the `time()` and `mktime()` functions that handle this sort 
 
 Something like the following logic occured when the system was started;
 
-```c++
+```
 int CurrentMidnight = GetSecondsfromPABX();  # Set on program startup by asking the PABX
 ```
 
 The routine executed at midnight looked something like this;
 
-```c++
+```
 RollMidnight()
 {
   ...
