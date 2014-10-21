@@ -18,16 +18,16 @@ int CurrentMidnight = GetSecondsfromPABX();  # Set on program startup by asking 
 
 The routine executed at midnight looked something like this;
 
-RollMidnight()
-{
+	RollMidnight()
+	{
 	...
-	int dy, mth, yr;
+		int dy, mth, yr;
 
-	ConvertToDate(CurrentMidnight, dy, mth, yr);
-	dy = dy + 1;
-	CurrentMidnight = DateToSeconds(dy, mth, yr);
+		ConvertToDate(CurrentMidnight, dy, mth, yr);
+		dy = dy + 1;
+		CurrentMidnight = DateToSeconds(dy, mth, yr);
 	...
-}
+	}
 
 No comments in the code (no surprise here). It appears that the programmer wanted to roll the date forward so converted CurrentMidnight into DD/MM/YY. Added one to the day (DD) and converted it back via another function.
 
