@@ -14,6 +14,7 @@ This code performed a roll-forward of the baseline date-time (which is held in U
 Despite there being the `time()` and `mktime()` functions that handle this sort of thing, they used an odd routine that seemed to have been sourced elsewhere.
 
 Something like the following logic occured when the system was started;
+
 	int CurrentMidnight = GetSecondsfromPABX();  # Set on program startup by asking the PABX
 
 The routine executed at midnight looked something like this;
@@ -71,10 +72,12 @@ This is all that was required, short simple and bug fixed.
 The actual bug worked like this;
 
 Suppose today is the last day of May, the date would be incremented, then the function call would look like this;
+
 	CurrentMidnight = DateToSeconds(32, 5, 95);
 
 The `DateToSeconds()` function at least checked things and if it detected an error it would pass back `-1`.
 So the code was essentially doing this;
+
 	CurrentMidnight = -1;
 
 For fans of the Y2038 issue [Year 2038 problem](http://en.wikipedia.org/wiki/Year_2038_problem) that represents 03:14:07 UTC on Tuesday, 19 January 2038
