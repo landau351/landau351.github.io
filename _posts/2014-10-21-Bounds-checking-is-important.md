@@ -11,10 +11,10 @@ When I joined the company I had heard about an old bug that would occasionally o
 Eventually I was given a junior programmer to assist me to support/enhance the code base. I was explaining to him how the code worked and was running through a routine that was triggered when the clock struck midnight.
 This code performed a roll-forward of the baseline date-time (which is held in UNIX style Seconds format).
 
-Despite there being the 'time()' and 'mktime()' functions that handle this sort of thing, they used an odd routine that seemed to have been sourced elsewhere.
+Despite there being the `time()` and `mktime()` functions that handle this sort of thing, they used an odd routine that seemed to have been sourced elsewhere.
 
 Something like the following logic occured when the system was started;
-int CurrentMidnight = GetSecondsfromPABX();  # Set on program startup by asking the PABX
+	int CurrentMidnight = GetSecondsfromPABX();  # Set on program startup by asking the PABX
 
 The routine executed at midnight looked something like this;
 
@@ -57,7 +57,7 @@ The actual requirement was;
 Starting with a value in seconds, increment to a value in seconds that represents midnight the next day
 
 Actual Solution
-A "#define" already existed and was in use in various other locations in the code, (even if it wasn't, it is easy enough to create)
+A `#define` already existed and was in use in various other locations in the code, (even if it wasn't, it is easy enough to create)
 
 	  #define SECONDS_IN_A_DAY 60*60*24 # seconds-in-minute * minutes-in-hour * hours-in-day
 
@@ -71,13 +71,13 @@ This is all that was required, short simple and bug fixed.
 The actual bug worked like this;
 
 Suppose today is the last day of May, the date would be incremented, then the function call would look like this;
-CurrentMidnight = DateToSeconds(32, 5, 95);
+	CurrentMidnight = DateToSeconds(32, 5, 95);
 
-The DateToSeconds() function at least checked things and if it detected an error it would pass back -1.
+The `DateToSeconds()` function at least checked things and if it detected an error it would pass back `-1`.
 So the code was essentially doing this;
 	CurrentMidnight = -1;
 
-For fans of the Y2038 issue (http://en.wikipedia.org/wiki/Year_2038_problem) that represents 03:14:07 UTC on Tuesday, 19 January 2038
+For fans of the Y2038 issue [Year 2038 problem](http://en.wikipedia.org/wiki/Year_2038_problem) that represents 03:14:07 UTC on Tuesday, 19 January 2038
 I had not heard of Y2038 at that time but '-1' represents the largest number you can hold in an 32-bit int which is the year 2038.
 
 So records were stamped with 2038 for 15 minutes till the next PABX date-realignment.
@@ -85,4 +85,4 @@ So records were stamped with 2038 for 15 minutes till the next PABX date-realign
 Of course this highlights the other flaw in the logic,
 If a routine can return an error value, CHECK FOR IT!!
 
-Now some of you noticed that I used '96' for the year. Yes it was only using a 2 digit year. THAT can of worms I shall cover in another article.
+Now some of you noticed that I used '95' for the year. Yes it was only using a 2 digit year. THAT can of worms I shall cover in another article.
