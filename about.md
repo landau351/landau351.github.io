@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+A long time I.T. technical specialist.
 
 ### More Information
 
