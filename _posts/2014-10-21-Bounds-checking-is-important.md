@@ -19,7 +19,7 @@ Something like the following logic occured when the system was started;
 
 The routine executed at midnight looked something like this;
 
-```C++
+```c++
 RollMidnight()
 {
   ...
@@ -46,7 +46,7 @@ Unfortunately he hadn't spotted the date-bug at all.
 
 What I had assumed he would have seen is the highly dangerous;
 
-```C++
+```c++
 dy = dy + 1;
 ```
 
@@ -64,13 +64,13 @@ Starting with a value in seconds, increment to a value in seconds that represent
 Actual Solution
 A `#define` already existed and was in use in various other locations in the code, (even if it wasn't, it is easy enough to create)
 
-```C++
+```c++
 #define SECONDS_IN_A_DAY 60*60*24 # seconds-in-minute * minutes-in-hour * hours-in-day
 ```
 
 I replaced the function calls with this;
 
-```C++
+```c++
 CurrentMidnight += SECONDS_IN_A_DAY;
 ```
 
@@ -81,14 +81,14 @@ The actual bug worked like this;
 
 Suppose today is the last day of May, the date would be incremented, then the function call would look like this;
 
-```C++
+```c++
 CurrentMidnight = DateToSeconds(32, 5, 95);
 ```
 
 The `DateToSeconds()` function at least checked things and if it detected an error it would pass back `-1`.
 So the code was essentially doing this;
 
-```C++
+```c++
 CurrentMidnight = -1;
 ```
 
